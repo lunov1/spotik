@@ -1,23 +1,30 @@
-import webbrowser
-
+from aiohttp import web
 import aiohttp
+
 import asyncio
 
-from aiohttp import web
 from colorama import Fore
 
 import logging
 from os import getenv
 
+import socket
+
 logging.basicConfig(level=logging.ERROR)
 
-REDIRECT_URL = 'http://127.0.0.1:8888/callback'
+hostname = socket.gethostname()
+
+IP = socket.gethostbyname(hostname)
+REDIRECT_URL = f'http://{IP}:8888/callback'
 CLIENT_ID = getenv('CLIENT_ID')
 CLIENT_SECRET = getenv('CLIENT_SECRET')
 
 
 async def callback(request):
     auth_code = request.rel_url.query.get('code')
+    if not auth_code:
+        return web.Response(text="Authorization code not found.", status=400)
+
     token = await get_access_token(
         CLIENT_ID, CLIENT_SECRET, auth_code, REDIRECT_URL
     )
@@ -48,10 +55,9 @@ async def get_access_token(client_id, client_secret, code, redirect_uri):
                 access_token = (await response.json()).get('refresh_token')
                 return access_token
             else:
+                error_message = await response.text()
                 raise Exception(
-                    "Token receipt error: ",
-                    response.status,
-                    await response.text()
+                    f"Token receipt error: {response.status} - {error_message}"
                 )
 
 
@@ -63,7 +69,7 @@ async def get_authorization_code(client_id, redirect_uri):
         f'&redirect_uri={redirect_uri}'
         '&scope=user-read-currently-playing'
     )
-    webbrowser.open(auth_url)
+    print(f"Follow the link in any browser:\n{auth_url}\n")
     print("Waiting for the authorization code to be received...")
 
 
@@ -84,6 +90,10 @@ def start():
     asyncio.set_event_loop(loop)
     try:
         app = loop.run_until_complete(main())
-        web.run_app(app, port=8888)
+        web.run_app(app, host=IP, port=8888)
     except KeyboardInterrupt:
         pass
+
+
+if __name__ == "__main__":
+    start()

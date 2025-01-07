@@ -15,9 +15,15 @@ import aioschedule as schedule
 from listener.listener import Listener
 from listener.getter import start
 
+import socket
+
 load_dotenv('.env')
 
 init()
+
+hostname = socket.gethostname()
+
+IP = socket.gethostbyname(hostname)
 
 
 async def update_schedule(listener):
@@ -73,7 +79,7 @@ async def main():
             'To work with Sportik, you will need to'
             'log in to https://developer.spotify.com/dashboard '
             'and create the application, then in the settings, '
-            'in the Redirect URIs, add http://127.0.0.1:8888/callback'
+            f'in the Redirect URIs, add: \nhttp://{IP}:8888/callback'
         )
         input("Write anything if you've done all the steps above: ")
         return True
