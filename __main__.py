@@ -45,6 +45,8 @@ async def main():
     default_channel_photo_src = getenv('DEFAULT_CHANNEL_PHOTO_SRC')
     default_channel_name = getenv('DEFAULT_CHANNEL_NAME')
 
+    print(default_channel_name)
+
     print(
         f'{Fore.LIGHTGREEN_EX}Spotik{Fore.RESET} - translate your tracks '
         f'in {Fore.CYAN}Telegram Profile{Fore.RESET}'
