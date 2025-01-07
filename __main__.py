@@ -13,7 +13,7 @@ from aiogram.client.default import DefaultBotProperties
 
 import aioschedule as schedule
 from listener.listener import Listener
-from listener.getter import start
+from listener.getter import start, IP
 
 import socket
 
@@ -22,8 +22,6 @@ load_dotenv('.env')
 init()
 
 hostname = socket.gethostname()
-
-IP = socket.gethostbyname(hostname)
 
 
 async def update_schedule(listener):
@@ -49,7 +47,7 @@ async def main():
 
     print(
         f'{Fore.LIGHTGREEN_EX}Spotik{Fore.RESET} - translate your tracks '
-        'in {Fore.CYAN}Telegram Profile{Fore.RESET}'
+        f'in {Fore.CYAN}Telegram Profile{Fore.RESET}'
     )
     action = input(
         'What you want to do?\n\n'

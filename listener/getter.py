@@ -12,9 +12,22 @@ import socket
 
 logging.basicConfig(level=logging.ERROR)
 
-hostname = socket.gethostname()
 
-IP = socket.gethostbyname(hostname)
+def get_local_ip():
+    try:
+        # Создаем сокет и подключаемся к какому-либо внешнему адресу
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(("8.8.8.8", 80))  # Google DNS server
+        ip_address = s.getsockname()[0]
+    except Exception as e:
+        ip_address = str(e)
+    finally:
+        s.close()
+
+    return ip_address
+
+
+IP = get_local_ip()
 REDIRECT_URL = f'http://{IP}:8888/callback'
 CLIENT_ID = getenv('CLIENT_ID')
 CLIENT_SECRET = getenv('CLIENT_SECRET')
