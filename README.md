@@ -8,7 +8,7 @@ cd spotik
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
-cp .env.example .env # fill in all fields with variables
+cp .env.example .env # fill in all fields with variables (out SPOTIFY_REFRESH_TOKEN)
 nano .env
 python3 __main__.py
 ```
@@ -21,7 +21,7 @@ python -m venv venv
 venv/scripts/activate
 pip install -r requirements.txt
 copy .env.example .env
-# fill in all fields with variables in file .env
+# fill in all fields with variables in file .env (out SPOTIFY_REFRESH_TOKEN)
 python __main__.py
 ```
 
