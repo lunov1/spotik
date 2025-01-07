@@ -7,6 +7,7 @@ from colorama import Fore
 
 import logging
 from os import getenv
+from dotenv import load_dotenv
 
 import socket
 
@@ -15,9 +16,8 @@ logging.basicConfig(level=logging.ERROR)
 
 def get_local_ip():
     try:
-        # Создаем сокет и подключаемся к какому-либо внешнему адресу
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        s.connect(("8.8.8.8", 80))  # Google DNS server
+        s.connect(("8.8.8.8", 80))
         ip_address = s.getsockname()[0]
     except Exception as e:
         ip_address = str(e)
@@ -26,6 +26,8 @@ def get_local_ip():
 
     return ip_address
 
+
+load_dotenv('../.env')
 
 IP = get_local_ip()
 REDIRECT_URL = f'http://{IP}:8888/callback'
