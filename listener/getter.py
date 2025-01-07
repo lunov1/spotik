@@ -27,7 +27,7 @@ def get_local_ip():
     return ip_address
 
 
-load_dotenv('../.env')
+load_dotenv('.env')
 
 IP = get_local_ip()
 REDIRECT_URL = f'http://{IP}:8888/callback'
