@@ -72,11 +72,15 @@ async def main():
                 'One of the variables (client_id, client_secret) '
                 'in the file ".env" is not filled in'
             )
+            print(
+                'You need to create you app via https://developer.spotify.com/dashboard'
+                ' and get client_id, client_secret from this app'
+            )
             return
         print(
             'To work with Sportik, you will need to'
-            'log in to https://developer.spotify.com/dashboard '
-            'and create the application, then in the settings, '
+            'log in to https://developer.spotify.com/dashboard, '
+            'then in the settings, '
             f'in the Redirect URIs, add: \nhttp://{IP}:8888/callback'
         )
         input("Write anything if you've done all the steps above: ")
@@ -103,10 +107,7 @@ async def main():
 
     session = AiohttpSession()
     bot = Bot(
-        getenv('BOT_TOKEN'), session,
-        default=DefaultBotProperties(
-            parse_mode=ParseMode.HTML
-        )
+        getenv('BOT_TOKEN'), session
     )
 
     listener = Listener(
